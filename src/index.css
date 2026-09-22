@@ -1,0 +1,1235 @@
+:root {
+  /* Marca KM — paleta de dados/acentos (dataviz). Estas cores NÃO mudam entre
+     os temas claro/escuro — só o "casco" da interface (fundos, texto, bordas)
+     muda, controlado pelo atributo data-theme na tag <html> (ver ThemeContext). */
+  --km-cyan: #0bebf8;
+  --km-teal: #16b3c1;
+  --km-blue-strong: #006bb7;
+  --km-periwinkle: #5880b1;
+  --km-gray-blue: #3c5f85;
+  --km-lavender: #b1b4c4;
+  --km-navy-deep: #0e2240;
+  --km-critical: #d03b3b;
+
+  /* Acentos "premium dashboard" (referência: dark corporate + glass layered) —
+     azul-violeta pro CTA principal, índigo de apoio, ciano/violeta como
+     detalhe (gráficos, glow de foco/seleção). Cross-theme como o resto da
+     marca acima. */
+  --accent-primary: linear-gradient(135deg, #3461ff 0%, #8b5cf6 100%);
+  --accent-primary-solid: #5b7cfa;
+  --accent-secondary: #6366f1;
+  --accent-cyan: var(--km-cyan);
+  --accent-purple: #8b5cf6;
+
+  /* Escala única de raio e de sombra, usada em todo o app — cards e
+     containers principais não compartilham o mesmo valor (nível de
+     profundidade diferente). */
+  --radius-sm: 9px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* ---- Tema ESCURO (padrão) ----
+     Base quase preta (azul bem escuro) com contraste dado por tons de azul
+     mais claros nas superfícies e no brilho — mesma "pegada" de um app
+     preto+verde de referência, só que com azul no lugar do verde. As
+     superfícies usam degradês sutis (mesmo tom, só uma ponta mais clara) em
+     vez de cor chapada — funciona em qualquer elemento porque cada um desenha
+     o próprio degradê dentro da sua caixa, do menor botão ao maior card. */
+  --bg: linear-gradient(160deg, #071626 0%, #04101c 55%, #020810 100%);
+  --surface: linear-gradient(160deg, #0f2740 0%, #0a1a2c 100%);
+  --surface-elevated: linear-gradient(160deg, #16345c 0%, #0e2338 100%);
+  --text: #8fa3bf;
+  --text-h: #ffffff;
+  --text-muted: #8fa3bf;
+  --border: #1c3a5c;
+  --shadow: rgba(0, 0, 0, 0.55) 0 4px 16px -4px;
+
+  /* ---- Níveis de profundidade (nomenclatura do design system pedido) ----
+     Nível 1 = bg-app/bg-sidebar/bg-header (casco). Nível 2 = surface-1/2
+     (containers e cards). Nível 3 = surface-3 (subcards, KPIs, filtros).
+     Nível 4 = surface-active/accent (item selecionado, ação principal). */
+  --bg-app: var(--bg);
+  --surface-1: var(--surface);
+  --surface-2: var(--surface-elevated);
+  --surface-3: linear-gradient(160deg, #1c3f68 0%, #142d4d 100%);
+  --surface-hover: rgba(255, 255, 255, 0.045);
+  --surface-active: rgba(99, 102, 241, 0.16);
+
+  --border-default: var(--border);
+  --border-highlight: rgba(11, 235, 248, 0.35);
+
+  --text-primary: var(--text-h);
+  --text-secondary: #b7c3e6;
+
+  --shadow-card: 0 10px 28px -12px rgba(0, 0, 0, 0.55);
+  --shadow-elevated: 0 24px 56px -16px rgba(0, 0, 0, 0.65);
+  --shadow-glow: 0 0 0 3px rgba(11, 235, 248, 0.16);
+
+  /* "Canvas externo" — brilho radial de fundo do Dashboard (centro/meio/borda). */
+  --canvas-glow-center: #0c3a63;
+  --canvas-glow-mid: #071e35;
+  --canvas-glow-edge: #030a14;
+
+  /* Card destaque (ex.: tiles de resumo do Dashboard) — gradiente vertical. */
+  --hero-grad-top: #163358;
+  --hero-grad-base: #081426;
+
+  /* "Casca" fixa (sidebar, header) — mais escura que o conteúdo, quase preta,
+     pra dar o contraste pedido em relação às superfícies mais claras. */
+  --shell-bg: linear-gradient(180deg, #0a1c30 0%, #040d18 100%);
+  --bg-sidebar: var(--shell-bg);
+  --bg-header: rgba(8, 20, 36, 0.72);
+  --shell-ink: #ffffff;
+  --shell-ink-muted: #93a4c3;
+  --shell-ink-faint: rgba(147, 164, 195, 0.6);
+  --grid: var(--border);
+  --veil-1: rgba(255, 255, 255, 0.04);
+  --veil-2: rgba(255, 255, 255, 0.05);
+  --veil-3: rgba(255, 255, 255, 0.06);
+  --veil-4: rgba(255, 255, 255, 0.08);
+  --veil-5: rgba(255, 255, 255, 0.12);
+  --veil-6: rgba(255, 255, 255, 0.14);
+
+  --accent: var(--km-cyan);
+  --accent-hover: var(--km-teal);
+  --accent-bg: rgba(11, 235, 248, 0.16);
+  --danger: #f87171;
+  --danger-bg: rgba(248, 113, 113, 0.14);
+  --success: #4ade80;
+  --success-bg: rgba(74, 222, 128, 0.14);
+  --warning: #fbbf24;
+  --warning-bg: rgba(251, 191, 36, 0.14);
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 15px/150% var(--sans);
+  color-scheme: dark;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- Tema CLARO ---- */
+:root[data-theme='light'] {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --text: #5b6b85;
+  --text-h: #0b1220;
+  --text-muted: #5b6b85;
+  --border: rgba(15, 23, 42, 0.1);
+  --shadow: rgba(15, 23, 42, 0.12) 0 4px 16px -4px;
+
+  /* Placeholders até o White Mode ser especificado — mantêm o visual claro
+     atual (sem o brilho navy do Dark Mode) nestes elementos. */
+  --canvas-glow-center: #eef1f8;
+  --canvas-glow-mid: #eef1f8;
+  --canvas-glow-edge: #eef1f8;
+  --hero-grad-top: #ffffff;
+  --hero-grad-base: #eef3fb;
+
+  --bg-app: var(--bg);
+  --surface-1: var(--surface);
+  --surface-2: var(--surface);
+  --surface-3: #f7f9fd;
+  --surface-hover: rgba(15, 23, 42, 0.035);
+  --surface-active: rgba(99, 102, 241, 0.1);
+  --border-default: var(--border);
+  --border-highlight: rgba(11, 235, 248, 0.4);
+  --text-primary: var(--text-h);
+  --text-secondary: #45537a;
+  --shadow-card: 0 6px 20px -10px rgba(15, 23, 42, 0.18);
+  --shadow-elevated: 0 20px 44px -16px rgba(15, 23, 42, 0.22);
+  --shadow-glow: 0 0 0 3px rgba(11, 235, 248, 0.18);
+
+  --shell-bg: #eef1f8;
+  --bg-sidebar: var(--shell-bg);
+  --bg-header: rgba(255, 255, 255, 0.82);
+  --shell-ink: #0b1220;
+  --shell-ink-muted: #5b6b85;
+  --shell-ink-faint: rgba(91, 107, 133, 0.7);
+  --grid: rgba(15, 23, 42, 0.1);
+  --veil-1: rgba(15, 23, 42, 0.035);
+  --veil-2: rgba(15, 23, 42, 0.045);
+  --veil-3: rgba(15, 23, 42, 0.055);
+  --veil-4: rgba(15, 23, 42, 0.07);
+  --veil-5: rgba(15, 23, 42, 0.1);
+  --veil-6: rgba(15, 23, 42, 0.13);
+
+  --accent-bg: rgba(11, 235, 248, 0.12);
+  --danger-bg: rgba(248, 113, 113, 0.12);
+  --success-bg: rgba(74, 222, 128, 0.14);
+  --warning-bg: rgba(251, 191, 36, 0.16);
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+h1, h2, h3 {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0 0 4px;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* ---- Auth pages ---- */
+.auth-layout {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+
+.auth-logo {
+  display: block;
+  height: 40px;
+  width: auto;
+  margin: 0 auto 20px;
+}
+
+/* Banner "sangrando" até a borda do card, com cantos superiores arredondados
+   iguais ao card — evita a moldura preta da imagem original aparecer solta
+   dentro do card branco/escuro. */
+.auth-logo-hero {
+  display: block;
+  width: calc(100% + 64px);
+  height: 140px;
+  object-fit: cover;
+  object-position: center;
+  margin: -32px -32px 20px;
+  border-radius: 12px 12px 0 0;
+}
+
+.auth-card h1 {
+  font-size: 22px;
+  text-align: center;
+}
+
+.auth-subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.field input,
+.field select,
+.field textarea {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-h);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--border-highlight);
+  box-shadow: var(--shadow-glow);
+}
+
+.password-input {
+  position: relative;
+  display: flex;
+}
+
+.password-input input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.password-toggle:hover {
+  background: var(--accent-bg);
+  color: var(--text-h);
+}
+
+.button-primary {
+  width: 100%;
+  font: inherit;
+  font-weight: 600;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--accent-primary);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 16px -6px rgba(91, 124, 250, 0.5);
+  transition:
+    filter 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.button-primary:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 8px 20px -6px rgba(91, 124, 250, 0.6);
+}
+
+.button-primary:active {
+  transform: translateY(1px);
+}
+
+.button-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: none;
+}
+
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.auth-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.alert {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.alert-error {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.alert-success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.alert-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+/* ---- App shell ---- */
+.app-shell {
+  min-height: 100svh;
+  display: flex;
+}
+
+/* Sidebar usa a "casca" fixa do app (--shell-*), que muda com o tema claro/
+   escuro junto com o resto do app. */
+.app-sidebar {
+  width: 232px;
+  flex-shrink: 0;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-default);
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow-y: auto;
+}
+
+.app-sidebar-logo {
+  height: 40px;
+  width: auto;
+  align-self: flex-start;
+  margin-bottom: 28px;
+  padding: 0 6px;
+  object-fit: contain;
+}
+
+/* A arte da logo tem bastante margem preta ao redor do símbolo — recorta
+   (object-fit: cover) num quadro pequeno pra o "KM" preencher melhor o
+   espaço apertado da sidebar, em vez de aparecer minúsculo no meio de uma
+   faixa preta. */
+.app-sidebar-logo-img {
+  display: block;
+  width: 132px;
+  height: 40px;
+  align-self: flex-start;
+  margin-bottom: 28px;
+  margin-left: 6px;
+  object-fit: cover;
+  object-position: 50% 46%;
+  border-radius: 8px;
+}
+
+.app-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.app-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--shell-ink-muted);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.app-nav-link svg {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  opacity: 0.85;
+}
+
+.app-nav-link:hover {
+  background: var(--surface-hover);
+  color: var(--shell-ink);
+}
+
+.app-nav-link.active {
+  background: var(--surface-active);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: var(--shell-ink);
+  font-weight: 600;
+  box-shadow:
+    inset 2px 0 0 var(--accent-secondary),
+    0 0 18px -8px rgba(99, 102, 241, 0.6);
+}
+
+.app-nav-link.active svg {
+  opacity: 1;
+  color: var(--accent-cyan);
+}
+
+.app-nav-section {
+  margin: 18px 0 4px;
+  padding: 0 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--shell-ink-faint);
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border-default);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.app-content {
+  padding: 24px;
+  flex: 1;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-pill);
+  background: var(--surface-hover);
+  color: var(--shell-ink);
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.theme-toggle:hover {
+  background: var(--veil-4);
+  border-color: var(--border-highlight);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-master {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.badge-admin {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.badge-user {
+  background: var(--border);
+  color: var(--text-muted);
+}
+
+.centered-state {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.centered-state-card {
+  max-width: 420px;
+}
+
+/* ---- Shared app widgets ---- */
+.page-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tab {
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 4px;
+  margin-bottom: -1px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+  color: var(--text-h);
+}
+
+.tab.active {
+  color: var(--text-h);
+  font-weight: 600;
+  border-bottom-color: var(--accent);
+}
+
+.stat-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.stat-card-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.stat-card-label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.chart-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+/* Microinteração discreta de hover (nível 2 do design system): só nos cards
+   "clicáveis"/em destaque do dashboard, não em containers grandes como a
+   tabela — evita ruído visual em áreas de leitura longa. */
+.stat-card,
+.chart-card,
+.hero-card,
+.donut-card,
+.tech-chart-card {
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+}
+
+.stat-card:hover,
+.chart-card:hover,
+.hero-card:hover,
+.donut-card:hover,
+.tech-chart-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-highlight);
+}
+
+.chart-card h3 {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.filters-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.filters-bar select,
+.filters-bar input {
+  font: inherit;
+  font-size: 14px;
+  padding: 7px 10px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-h);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.filters-bar select:focus,
+.filters-bar input:focus {
+  outline: none;
+  border-color: var(--border-highlight);
+  box-shadow: var(--shadow-glow);
+}
+
+.data-table-wrapper {
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  /* overflow (não só overflow-x) para o wrapper virar o próprio contêiner de
+     rolagem — é em relação a ele, e não à página, que o cabeçalho sticky abaixo
+     se fixa; com altura limitada, a rolagem passa a acontecer aqui dentro. */
+  overflow: auto;
+  max-height: 65vh;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+table.data-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-align: left;
+  padding: 10px 14px;
+  /* Duas camadas de fundo (a segunda serve de base, aceitando tanto cor sólida
+     quanto degradê vindo de --surface): tinta de destaque por cima do card. */
+  background: linear-gradient(var(--accent-bg), var(--accent-bg)), var(--surface-1);
+  border-bottom: 2px solid var(--accent);
+  color: var(--text-h);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+table.data-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+table.data-table th.sortable:hover {
+  color: var(--accent);
+}
+
+table.data-table th.sortable .sort-indicator {
+  margin-left: 4px;
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+table.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-default);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+table.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+table.data-table tbody tr {
+  transition: background 150ms ease;
+}
+
+table.data-table tbody tr:hover {
+  background: var(--surface-hover);
+}
+
+.status-pill {
+  display: inline-flex;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-ok { background: var(--success-bg); color: var(--success); }
+.status-warn { background: var(--warning-bg); color: var(--warning); }
+.status-danger { background: var(--danger-bg); color: var(--danger); }
+.status-neutral { background: var(--border); color: var(--text-muted); }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-end;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  /* Quando aninhada dentro de .data-table-wrapper (agora com altura limitada e
+     rolagem própria), fica fixa no rodapé em vez de exigir rolar pra achá-la. */
+  position: sticky;
+  bottom: 0;
+  background: var(--surface-1);
+}
+
+.button-secondary {
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-h);
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.button-secondary:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-highlight);
+}
+
+.button-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-small {
+  font: inherit;
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  color: var(--text-h);
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.button-small:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-highlight);
+}
+
+.button-danger {
+  color: var(--danger);
+  border-color: var(--danger-bg);
+}
+
+.row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 10, 20, 0.6);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 50;
+}
+
+.modal-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-elevated);
+}
+
+.modal-card h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.empty-state {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* ---- Dashboard: usa a "casca" do app (--shell-*), que responde ao tema
+   claro/escuro — os brilhos verde-azulado/azul da marca ficam por cima em
+   ambos os temas, como um toque sutil de identidade. ---- */
+/* Tamanho de brilho FIXO (não em %) e cor de base constante: numa página
+   comprida (com a seção de Telefonia mais abaixo), um brilho em % da altura
+   do container esticaria e o meio da tela cairia na cor mais escura da
+   borda, virando um "buraco preto". Com raio fixo ancorado no topo, o brilho
+   fica sempre do mesmo tamanho e o resto da página mantém o tom médio. */
+.dashboard-dark {
+  background:
+    radial-gradient(circle 640px at 50% -60px, var(--canvas-glow-center) 0%, transparent 70%),
+    var(--canvas-glow-mid);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin: -24px;
+  color: var(--shell-ink);
+  min-height: calc(100svh - 56px);
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dashboard-header h2 {
+  color: var(--shell-ink);
+  font-size: 22px;
+}
+
+.dashboard-header .subtitle {
+  color: var(--shell-ink-muted);
+  font-size: 13px;
+}
+
+.dashboard-export-btn {
+  width: auto;
+}
+
+/* O botão de exportar (e o eventual erro acima dele) não deve aparecer no PDF
+   gerado a partir do próprio container. visibility, não display, pra não
+   mudar o layout entre o clique e a captura. */
+.dashboard-dark.is-exporting .dashboard-export-btn,
+.dashboard-dark.is-exporting .alert-error {
+  visibility: hidden;
+}
+
+.dashboard-section-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--shell-ink-muted);
+  margin: 28px 0 12px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.hero-card {
+  position: relative;
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--hero-grad-top), var(--hero-grad-base));
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-card);
+}
+
+.hero-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background: var(--hero-glow, linear-gradient(135deg, rgba(11, 235, 248, 0.3), rgba(0, 107, 183, 0.05)));
+  z-index: 0;
+}
+
+.hero-card-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hero-card-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: var(--veil-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-card-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--accent-cyan);
+}
+
+.hero-card-value {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--shell-ink);
+  line-height: 1;
+}
+
+.hero-card-label {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--shell-ink-muted);
+}
+
+.donut-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.donut-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.donut-card h3 {
+  color: var(--shell-ink);
+  font-size: 14px;
+  margin: 0 0 4px;
+}
+
+.donut-card-chart {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  flex-shrink: 0;
+}
+
+.donut-center-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.donut-center-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--shell-ink);
+}
+
+.donut-center-caption {
+  font-size: 10px;
+  color: var(--shell-ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.donut-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--shell-ink-muted);
+}
+
+.donut-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.donut-legend-value {
+  color: var(--shell-ink);
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.tech-chart-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  /* A causa real do corte: item de grid tem min-width:auto por padrão, então
+     ele nunca encolhe abaixo do conteúdo (rótulos do eixo X). Isso fazia o
+     ResponsiveContainer medir uma largura maior que a coluna alocada, e o
+     recharts desenhava a última barra fora da área visível. Com min-width:0
+     o card encolhe certo e o gráfico inteiro passa a caber. */
+  min-width: 0;
+}
+
+.tech-chart-card h3 {
+  color: var(--shell-ink);
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+/* ---- Telefonia: filtros, tiles e tabela do painel de faturas (tema dark do Dashboard) ---- */
+.telephony-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.telephony-filters select {
+  font: inherit;
+  font-size: 13px;
+  padding: 7px 10px;
+  border: 1px solid var(--veil-6);
+  border-radius: 8px;
+  background: var(--veil-2);
+  color: var(--shell-ink);
+}
+
+.telephony-chip-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.telephony-chip {
+  font: inherit;
+  font-size: 12.5px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--veil-6);
+  background: var(--veil-1);
+  color: var(--shell-ink-muted);
+  cursor: pointer;
+}
+
+.telephony-chip:hover {
+  background: var(--veil-4);
+}
+
+.telephony-chip.active {
+  background: var(--surface-active);
+  border-color: rgba(99, 102, 241, 0.55);
+  color: var(--shell-ink);
+}
+
+.telephony-top-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.telephony-stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.telephony-stat-tile {
+  background: var(--surface-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.telephony-stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--shell-ink);
+  line-height: 1;
+}
+
+.telephony-stat-label {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--shell-ink-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.telephony-stat-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+@media (max-width: 860px) {
+  .telephony-top-grid {
+    grid-template-columns: 1fr;
+  }
+}
