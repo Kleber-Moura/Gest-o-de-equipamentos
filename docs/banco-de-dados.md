@@ -11,6 +11,10 @@ projeto Supabase novo (cole no SQL Editor e rode).
 > frontend. RLS, triggers e RPCs `security definer` são a fonte da verdade — a UI só
 > reflete essas regras pra dar feedback melhor ao usuário.
 
+> Para o diagrama entidade-relacionamento e a lista completa de chaves estrangeiras
+> (quem referencia quem, obrigatório ou opcional, o que acontece em cada `ON DELETE`),
+> veja [mapeamento-banco-de-dados.md](mapeamento-banco-de-dados.md).
+
 ## Tabelas
 
 ### Referência (cadastros simples)

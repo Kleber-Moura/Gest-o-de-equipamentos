@@ -16,8 +16,21 @@ Este README cobre o essencial para rodar o projeto localmente. Para os detalhes:
 |---|---|
 | [docs/arquitetura.md](docs/arquitetura.md) | Como o frontend é organizado: rotas, autenticação, papéis de usuário, camada de serviços, páginas |
 | [docs/banco-de-dados.md](docs/banco-de-dados.md) | Todas as tabelas, colunas, RLS, funções (RPC), triggers e o bucket de Storage |
+| [docs/mapeamento-banco-de-dados.md](docs/mapeamento-banco-de-dados.md) | Diagrama entidade-relacionamento e mapa completo de chaves estrangeiras entre as tabelas |
 | [docs/design-system.md](docs/design-system.md) | Identidade visual KM, tokens de cor, tema claro/escuro, componentes |
 | [docs/credenciais-e-seguranca.md](docs/credenciais-e-seguranca.md) | Quais credenciais o projeto usa, onde ficam guardadas e como trocá-las — **leia antes de mexer em produção** |
+| [docs/documentacao-funcional.md](docs/documentacao-funcional.md) | O sistema explicado em linguagem simples, sem jargão técnico — papéis de usuário, telas, regras de negócio, glossário. Também disponível em Word: [docs/docx/documentacao-funcional.docx](docs/docx/documentacao-funcional.docx) |
+| [docs/especificacao-tecnica-ia.md](docs/especificacao-tecnica-ia.md) | Especificação técnica consolidada de tudo (schema, RLS, RPCs, triggers, frontend, Edge Functions) — feita para servir de contexto/prompt a uma IA e de backup de conhecimento do projeto. Também em Word: [docs/docx/especificacao-tecnica-ia.docx](docs/docx/especificacao-tecnica-ia.docx) |
+
+Cada um dos 5 primeiros documentos também tem uma versão em PDF equivalente em
+[docs/pdf/](docs/pdf/), pra quem preferir ler fora do GitHub (ex.: compartilhar por
+e-mail). Elas são geradas a partir dos `.md` acima com `npm run docs:pdf` — rode esse
+comando de novo sempre que editar algum documento, **com o Microsoft Edge fechado**
+(o script usa o Edge em modo headless para imprimir o PDF, e uma janela do Edge já aberta
+intercepta a chamada e a conversão falha). O único conteúdo que aparece diferente entre
+as duas versões é o diagrama Mermaid de
+[mapeamento-banco-de-dados.md](docs/mapeamento-banco-de-dados.md): no GitHub ele é
+desenhado automaticamente; no PDF (estático) aparece como o código-fonte do diagrama.
 
 ## Stack
 
@@ -59,6 +72,8 @@ app: abra o SQL Editor do seu projeto Supabase e execute, nessa ordem, os arquiv
 | `npm run build` | Type-check (`tsc -b`) + build de produção |
 | `npm run preview` | Serve o build de produção localmente |
 | `npm run lint` | Roda o linter ([oxlint](https://oxc.rs/docs/guide/usage/linter.html)) |
+| `npm run docs:pdf` | Regera os PDFs de `docs/pdf/` a partir dos `.md` (ver nota abaixo) |
+| `npm run docs:docx` | Regera os Word (.docx) de `docs/docx/` a partir dos `.md` |
 
 ## Variáveis de ambiente
 
