@@ -220,17 +220,15 @@ a {
   margin: 0 auto 20px;
 }
 
-/* Banner "sangrando" até a borda do card, com cantos superiores arredondados
-   iguais ao card — evita a moldura preta da imagem original aparecer solta
-   dentro do card branco/escuro. */
+/* PNG com fundo transparente: o glow flutua direto sobre a superfície do
+   card, sem precisar de moldura/recorte pra esconder um fundo preto sólido. */
 .auth-logo-hero {
   display: block;
-  width: calc(100% + 64px);
-  height: 140px;
-  object-fit: cover;
-  object-position: center;
-  margin: -32px -32px 20px;
-  border-radius: 12px 12px 0 0;
+  width: auto;
+  max-width: 100%;
+  height: 96px;
+  object-fit: contain;
+  margin: 0 auto 20px;
 }
 
 .auth-card h1 {
@@ -418,20 +416,14 @@ a {
   object-fit: contain;
 }
 
-/* A arte da logo tem bastante margem preta ao redor do símbolo — recorta
-   (object-fit: cover) num quadro pequeno pra o "KM" preencher melhor o
-   espaço apertado da sidebar, em vez de aparecer minúsculo no meio de uma
-   faixa preta. */
 .app-sidebar-logo-img {
   display: block;
-  width: 132px;
+  width: auto;
   height: 40px;
   align-self: flex-start;
   margin-bottom: 28px;
-  margin-left: 6px;
-  object-fit: cover;
-  object-position: 50% 46%;
-  border-radius: 8px;
+  padding: 0 6px;
+  object-fit: contain;
 }
 
 .app-nav {

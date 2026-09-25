@@ -21,7 +21,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/hooks/useTheme'
 import type { AppRole } from '@/types/auth'
 import { KmMark } from '@/components/branding/KmMark'
-import kmLogo from '@/assets/branding/km-logo.jpg'
+import kmLogo from '@/assets/branding/km-logo.png'
 
 const ROLE_LABEL: Record<AppRole, string> = { MASTER: 'Master', ADMIN: 'Administrador', USER: 'Usuário' }
 const ROLE_BADGE_CLASS: Record<AppRole, string> = { MASTER: 'badge-master', ADMIN: 'badge-admin', USER: 'badge-user' }

@@ -1054,8 +1054,8 @@ color-scheme: light;
 ```
 
 Ícones: [lucide-react](https://lucide.dev). Gráficos: [Recharts](https://recharts.org).
-Logo: `src/assets/branding/km-logo.jpg` (arte, só tema escuro) + `KmMark.tsx` (SVG,
-variantes `glow`/`solid`).
+Logo: `src/assets/branding/km-logo.png` (arte com fundo transparente, só tema escuro) +
+`KmMark.tsx` (SVG, variantes `glow`/`solid`, tema claro).
 
 ## 14. Runbook: como reconstruir o projeto do zero
 

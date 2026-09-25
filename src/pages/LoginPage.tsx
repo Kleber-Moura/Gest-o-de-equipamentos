@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/hooks/useTheme'
 import { PasswordInput } from '@/components/PasswordInput'
 import { KmMark } from '@/components/branding/KmMark'
-import kmLogo from '@/assets/branding/km-logo.jpg'
+import kmLogo from '@/assets/branding/km-logo.png'
 
 export function LoginPage() {
   const { signIn } = useAuth()

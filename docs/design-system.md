@@ -95,13 +95,14 @@ projeto):
   `solid` (gradiente verde-azulado→azul mais denso, sem blur — usado sobre fundo claro).
   Usado como logo da sidebar/login **no tema claro** e como símbolo pequeno em qualquer
   lugar que precise de um ícone de marca simples e legível.
-- **Arte principal** ([src/assets/branding/km-logo.jpg](../src/assets/branding/km-logo.jpg)):
-  arte gerada (neon, detalhada) fornecida pelo usuário. Usada em dois lugares, **só no
-  tema escuro** (o fundo preto da imagem não funciona sobre fundo claro):
-  - Banner grande no topo do card de login (`.auth-logo-hero`, recortado com
-    `object-fit: cover` pra "sangrar" até a borda do card).
-  - Logo pequena da sidebar (`.app-sidebar-logo-img`, recortada em uma caixa estreita
-    pra esconder a margem preta ao redor do símbolo).
+- **Arte principal** ([src/assets/branding/km-logo.png](../src/assets/branding/km-logo.png)):
+  arte gerada (neon, detalhada) fornecida pelo usuário, com o fundo preto original
+  removido (canal alfa gerado a partir do brilho de cada pixel — as áreas antes pretas
+  ficam transparentes, o próprio glow permanece intacto). Usada em dois lugares, **só no
+  tema escuro** (o glow não fica legível sobre fundo claro — nesse caso usa-se o
+  `KmMark` abaixo):
+  - Banner no topo do card de login (`.auth-logo-hero`, `object-fit: contain`).
+  - Logo da sidebar (`.app-sidebar-logo-img`, `object-fit: contain`).
 - **Favicon** ([public/favicon.svg](../public/favicon.svg)): versão compacta e estática
   do mesmo monograma, com variante clara/escura via `@media (prefers-color-scheme)`
   (independente do toggle de tema do app — segue o SO/navegador).
