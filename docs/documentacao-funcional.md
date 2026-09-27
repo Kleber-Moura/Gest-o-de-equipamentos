@@ -82,7 +82,8 @@ toda a frota de equipamentos:
 - Gráficos de distribuição: notebooks por localidade, acessórios por categoria.
 - Um painel completo de **telefonia**: quantidade de linhas por operadora, quantas estão
   atribuídas ou disponíveis, e um gráfico de custo mensal por operadora ao longo do ano
-  (com filtro por departamento, operadora, mês e ano).
+  civil, de **janeiro a dezembro** (com filtro por departamento, operadora, mês e ano).
+  Cada operadora tem sempre a mesma cor: Claro vermelho, Oi verde, TIM azul e Vivo roxo.
 - Um botão **"Exportar PDF"**, que gera um arquivo PDF com uma "foto" de tudo que está
   sendo mostrado na tela naquele momento — útil para apresentar em uma reunião ou guardar
   um retrato de um mês específico.

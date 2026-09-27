@@ -20,8 +20,8 @@ import {
 import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/hooks/useTheme'
 import type { AppRole } from '@/types/auth'
-import { KmMark } from '@/components/branding/KmMark'
 import kmLogo from '@/assets/branding/km-logo.png'
+import kmLogoLight from '@/assets/branding/km-logo-light.png'
 
 const ROLE_LABEL: Record<AppRole, string> = { MASTER: 'Master', ADMIN: 'Administrador', USER: 'Usuário' }
 const ROLE_BADGE_CLASS: Record<AppRole, string> = { MASTER: 'badge-master', ADMIN: 'badge-admin', USER: 'badge-user' }
@@ -43,11 +43,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="app-shell">
       <aside className="app-sidebar">
-        {theme === 'dark' ? (
-          <img src={kmLogo} alt="KM" className="app-sidebar-logo-img" />
-        ) : (
-          <KmMark variant="solid" className="app-sidebar-logo" />
-        )}
+        <img src={theme === 'dark' ? kmLogo : kmLogoLight} alt="KM" className="app-sidebar-logo-img" />
         <nav className="app-nav">
           <NavLink to="/" className={navLinkClass} end>
             <NavIcon icon={LayoutDashboard} /> Dashboard

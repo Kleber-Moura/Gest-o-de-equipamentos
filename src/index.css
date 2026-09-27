@@ -38,6 +38,7 @@
      o próprio degradê dentro da sua caixa, do menor botão ao maior card. */
   --bg: linear-gradient(160deg, #071626 0%, #04101c 55%, #020810 100%);
   --surface: linear-gradient(160deg, #0f2740 0%, #0a1a2c 100%);
+  --option-bg: #0f2740;
   --surface-elevated: linear-gradient(160deg, #16345c 0%, #0e2338 100%);
   --text: #8fa3bf;
   --text-h: #ffffff;
@@ -116,6 +117,7 @@
 :root[data-theme='light'] {
   --bg: #f4f6fb;
   --surface: #ffffff;
+  --option-bg: #ffffff;
   --surface-elevated: #ffffff;
   --text: #5b6b85;
   --text-h: #0b1220;
@@ -171,6 +173,20 @@
   box-sizing: border-box;
 }
 
+/* A lista aberta de um <select> é desenhada pelo navegador a partir do fundo do
+   próprio select; com fundo semitransparente (ex.: filtros da Telefonia) o
+   Chrome/Windows cai para branco e o texto claro some. Cores sólidas do tema
+   nas opções garantem contraste em qualquer select, nos dois temas. */
+select option,
+select optgroup {
+  background-color: var(--option-bg);
+  color: var(--text-h);
+}
+
+select option:disabled {
+  color: var(--text);
+}
+
 body {
   margin: 0;
 }
@@ -211,13 +227,6 @@ a {
   border-radius: 16px;
   padding: 32px;
   box-shadow: var(--shadow);
-}
-
-.auth-logo {
-  display: block;
-  height: 40px;
-  width: auto;
-  margin: 0 auto 20px;
 }
 
 /* PNG com fundo transparente: o glow flutua direto sobre a superfície do
@@ -407,15 +416,6 @@ a {
   overflow-y: auto;
 }
 
-.app-sidebar-logo {
-  height: 40px;
-  width: auto;
-  align-self: flex-start;
-  margin-bottom: 28px;
-  padding: 0 6px;
-  object-fit: contain;
-}
-
 .app-sidebar-logo-img {
   display: block;
   width: auto;
@@ -424,6 +424,13 @@ a {
   margin-bottom: 28px;
   padding: 0 6px;
   object-fit: contain;
+}
+
+/* Login usa a logo neon nos dois temas; no claro, um contorno azul-escuro sutil
+   segura o glow ciano, que sozinho ficaria lavado sobre o fundo branco. A
+   sidebar tem logo própria no tema claro (km-logo-light.png). */
+:root[data-theme='light'] .auth-logo-hero {
+  filter: drop-shadow(0 0 1px rgba(0, 60, 120, 0.45)) saturate(1.25);
 }
 
 .app-nav {

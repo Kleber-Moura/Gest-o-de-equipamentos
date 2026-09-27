@@ -2,14 +2,11 @@ import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthLayout } from '@/layouts/AuthLayout'
 import { useAuth } from '@/hooks/useAuth'
-import { useTheme } from '@/hooks/useTheme'
 import { PasswordInput } from '@/components/PasswordInput'
-import { KmMark } from '@/components/branding/KmMark'
 import kmLogo from '@/assets/branding/km-logo.png'
 
 export function LoginPage() {
   const { signIn } = useAuth()
-  const { theme } = useTheme()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -26,11 +23,7 @@ export function LoginPage() {
 
   return (
     <AuthLayout>
-      {theme === 'dark' ? (
-        <img src={kmLogo} alt="KM" className="auth-logo-hero" />
-      ) : (
-        <KmMark variant="solid" className="auth-logo" />
-      )}
+      <img src={kmLogo} alt="KM" className="auth-logo-hero" />
       <h1>Entrar</h1>
       <p className="auth-subtitle">Infraestrutura de TI — KM</p>
 

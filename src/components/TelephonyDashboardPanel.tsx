@@ -5,20 +5,20 @@ import { listAllPhoneLines, listPhoneInvoices } from '@/services/telephony'
 import type { PhoneInvoice, PhoneLine } from '@/types/domain'
 import { HealthDonut, type DonutSegment } from '@/components/HealthDonut'
 
-const TEAL = '#16b3c1'
-const BLUE = '#006bb7'
-const CARRIER_PALETTE = [TEAL, BLUE, '#fab219', '#3c5f85']
+// Cores fixas por operadora, bem distantes entre si no círculo cromático para
+// não confundir as linhas do gráfico sobre o fundo escuro do Dashboard.
+const CARRIER_COLOR_BY_NAME: Record<string, string> = {
+  claro: '#ef4444',
+  oi: '#22c55e',
+  tim: '#3b82f6',
+  vivo: '#a855f7',
+}
+const FALLBACK_PALETTE = ['#f59e0b', '#06b6d4', '#ec4899', '#84cc16']
 
-// Ano comercial: outubro a setembro. Ex.: "2024/2025" cobre out/2024–set/2025.
-const FISCAL_CAL_MONTHS = [10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-const FISCAL_LABEL = ['out', 'nov', 'dez', 'jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set']
+// Ano civil: janeiro a dezembro.
+const MONTH_LABEL = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
 
 const currency = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
-
-function fiscalYearOf(dateStr: string): string {
-  const [y, m] = dateStr.split('-').map(Number)
-  return m >= 10 ? `${y}/${y + 1}` : `${y - 1}/${y}`
-}
 
 export function TelephonyDashboardPanel() {
   const ref = useReferenceData()
@@ -28,7 +28,7 @@ export function TelephonyDashboardPanel() {
 
   const [departmentId, setDepartmentId] = useState('')
   const [carrierIds, setCarrierIds] = useState<Set<string>>(new Set())
-  const [fiscalYear, setFiscalYear] = useState('')
+  const [year, setYear] = useState('')
   const [month, setMonth] = useState('')
 
   useEffect(() => {
@@ -42,19 +42,21 @@ export function TelephonyDashboardPanel() {
 
   const employeeById = useMemo(() => new Map(ref.employees.map((e) => [e.id, e])), [ref.employees])
 
-  const fiscalYears = useMemo(() => {
-    const set = new Set((invoices ?? []).map((i) => fiscalYearOf(i.invoice_date)))
+  const years = useMemo(() => {
+    const set = new Set((invoices ?? []).map((i) => i.invoice_date.slice(0, 4)))
     return Array.from(set).sort((a, b) => b.localeCompare(a))
   }, [invoices])
 
   useEffect(() => {
-    if (!fiscalYear && fiscalYears.length > 0) setFiscalYear(fiscalYears[0])
-  }, [fiscalYear, fiscalYears])
+    if (!year && years.length > 0) setYear(years[0])
+  }, [year, years])
 
   const carrierColor = useMemo(() => {
-    const ids = ref.carriers.map((c) => c.id).sort()
     const map = new Map<string, string>()
-    ids.forEach((id, i) => map.set(id, CARRIER_PALETTE[i % CARRIER_PALETTE.length]))
+    let fallback = 0
+    for (const c of [...ref.carriers].sort((a, b) => a.name.localeCompare(b.name))) {
+      map.set(c.id, CARRIER_COLOR_BY_NAME[c.name.trim().toLowerCase()] ?? FALLBACK_PALETTE[fallback++ % FALLBACK_PALETTE.length])
+    }
     return map
   }, [ref.carriers])
 
@@ -88,39 +90,40 @@ export function TelephonyDashboardPanel() {
     const byCarrier = new Map<string, number>()
     for (const l of filteredLines) byCarrier.set(l.carrier_id, (byCarrier.get(l.carrier_id) ?? 0) + 1)
     return ref.carriers
-      .map((c) => ({ label: c.name, value: byCarrier.get(c.id) ?? 0, color: carrierColor.get(c.id) ?? TEAL }))
+      .map((c) => ({ label: c.name, value: byCarrier.get(c.id) ?? 0, color: carrierColor.get(c.id) ?? FALLBACK_PALETTE[0] }))
       .filter((s) => s.value > 0)
   }, [filteredLines, ref.carriers, carrierColor])
 
-  // Custo por operadora, mês a mês, dentro do ano comercial selecionado (out→set) —
-  // cada linha do gráfico tem uma chave por carrier_id (dataKey dinâmico do recharts).
-  const fiscalMonthlyByCarrier = useMemo(() => {
-    if (!fiscalYear) return []
-    const startYear = Number(fiscalYear.split('/')[0])
-    const monthKeys = FISCAL_CAL_MONTHS.map((m) => `${m >= 10 ? startYear : startYear + 1}-${String(m).padStart(2, '0')}`)
-    const rows: Array<Record<string, string | number>> = monthKeys.map((key, i) => ({ name: FISCAL_LABEL[i], __key: key }))
-    const rowByKey = new Map(rows.map((r) => [r.__key as string, r]))
+  // Faturas que passam pelos filtros de ano, mês, operadora e departamento.
+  const filteredInvoices = useMemo(() => {
+    if (!year) return []
+    return (invoices ?? []).filter((inv) => {
+      if (inv.invoice_date.slice(0, 4) !== year) return false
+      if (month && inv.invoice_date.slice(5, 7) !== month) return false
+      return inv.phone_line_id ? lineIds.has(inv.phone_line_id) : carrierIds.size === 0 || carrierIds.has(inv.carrier_id)
+    })
+  }, [invoices, year, month, lineIds, carrierIds])
 
-    for (const inv of invoices ?? []) {
-      if (month && inv.invoice_date.slice(5, 7) !== month) continue
-      const matchesLine = inv.phone_line_id ? lineIds.has(inv.phone_line_id) : carrierIds.size === 0 || carrierIds.has(inv.carrier_id)
-      if (!matchesLine) continue
-      const row = rowByKey.get(inv.invoice_date.slice(0, 7))
-      if (!row) continue
+  // Custo por operadora, mês a mês (jan→dez) — cada linha do gráfico tem uma
+  // chave por carrier_id (dataKey dinâmico do recharts).
+  const monthlyByCarrier = useMemo(() => {
+    const rows: Array<Record<string, string | number>> = MONTH_LABEL.map((name) => ({ name }))
+    for (const inv of filteredInvoices) {
+      const row = rows[Number(inv.invoice_date.slice(5, 7)) - 1]
       row[inv.carrier_id] = (Number(row[inv.carrier_id]) || 0) + Number(inv.amount)
     }
     return rows
-  }, [invoices, fiscalYear, month, lineIds, carrierIds])
+  }, [filteredInvoices])
 
   const carrierTotals = useMemo(() => {
     const totals = new Map<string, number>()
-    for (const row of fiscalMonthlyByCarrier) {
+    for (const row of monthlyByCarrier) {
       for (const c of ref.carriers) {
         totals.set(c.id, (totals.get(c.id) ?? 0) + (Number(row[c.id]) || 0))
       }
     }
     return totals
-  }, [fiscalMonthlyByCarrier, ref.carriers])
+  }, [monthlyByCarrier, ref.carriers])
 
   const totalCost = useMemo(() => Array.from(carrierTotals.values()).reduce((a, b) => a + b, 0), [carrierTotals])
 
@@ -140,16 +143,16 @@ export function TelephonyDashboardPanel() {
         </select>
         <select value={month} onChange={(e) => setMonth(e.target.value)}>
           <option value="">Todos os meses</option>
-          {FISCAL_CAL_MONTHS.map((m, i) => (
-            <option key={m} value={String(m).padStart(2, '0')}>
-              {FISCAL_LABEL[i]}
+          {MONTH_LABEL.map((label, i) => (
+            <option key={label} value={String(i + 1).padStart(2, '0')}>
+              {label}
             </option>
           ))}
         </select>
-        <select value={fiscalYear} onChange={(e) => setFiscalYear(e.target.value)}>
-          {fiscalYears.map((y) => (
+        <select value={year} onChange={(e) => setYear(e.target.value)}>
+          {years.map((y) => (
             <option key={y} value={y}>
-              Ano comercial {y}
+              Ano {y}
             </option>
           ))}
         </select>
@@ -199,7 +202,7 @@ export function TelephonyDashboardPanel() {
         </div>
 
         <div className="tech-chart-card">
-          <h3>Custo Vivo x Claro — ano comercial {fiscalYear}</h3>
+          <h3>Custo por operadora — {year}</h3>
 
           <div className="telephony-stat-row">
             <div className="telephony-stat-tile">
@@ -221,11 +224,11 @@ export function TelephonyDashboardPanel() {
             <p style={{ color: 'var(--shell-ink-muted)', fontSize: 13 }}>Sem faturas para os filtros selecionados</p>
           ) : (
             <ResponsiveContainer width="100%" height={220}>
-              <AreaChart data={fiscalMonthlyByCarrier}>
+              <AreaChart data={monthlyByCarrier}>
                 <defs>
                   {ref.carriers.map((c) => (
                     <linearGradient key={c.id} id={`carrier-fill-${c.id}`} x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor={carrierColor.get(c.id)} stopOpacity={0.28} />
+                      <stop offset="0%" stopColor={carrierColor.get(c.id)} stopOpacity={0.12} />
                       <stop offset="100%" stopColor={carrierColor.get(c.id)} stopOpacity={0} />
                     </linearGradient>
                   ))}
@@ -253,9 +256,9 @@ export function TelephonyDashboardPanel() {
                     dataKey={c.id}
                     name={c.name}
                     stroke={carrierColor.get(c.id)}
-                    strokeWidth={2}
+                    strokeWidth={3}
                     fill={`url(#carrier-fill-${c.id})`}
-                    dot={false}
+                    dot={{ r: 3, strokeWidth: 0, fill: carrierColor.get(c.id) }}
                     activeDot={{ r: 5, strokeWidth: 2, stroke: 'var(--surface)' }}
                     connectNulls
                   />

@@ -87,9 +87,8 @@ Não há Tailwind, MUI ou qualquer framework de UI — toda a estilização é C
 
 ```
 src/
-  assets/branding/        Logo KM (imagem) e demais artes de marca
+  assets/branding/        Logos KM: km-logo.png (neon, tema escuro) e km-logo-light.png (tema claro)
   components/             Componentes reutilizáveis (modais, cards, gráficos)
-  components/branding/    KmMark.tsx (monograma SVG da marca)
   contexts/                AuthContext, ThemeContext
   hooks/                   useAuth, useTheme, useReferenceData
   layouts/                 AppLayout (shell autenticado), AuthLayout (telas públicas)
@@ -339,7 +338,12 @@ linhas), `CreateUserModal`, `EditUserModal`, `ResetPasswordModal`, `EmployeeForm
 `SimpleNameFormModal` (genérico "criar só por nome"), `UploadInvoiceModal`,
 `InvoiceUploadsPanel`, `TelephonyDashboardPanel`, `HealthDonut` (donut reutilizável,
 exporta `DonutSegment`), `StatCard`, `StatusPill`, `PasswordInput` (com toggle
-mostrar/ocultar), `branding/KmMark` (monograma SVG, variantes `glow`/`solid`).
+mostrar/ocultar).
+
+`TelephonyDashboardPanel` agrega as faturas por **ano civil** (jan→dez; o seletor lista
+os anos presentes em `phone_invoices.invoice_date`) e colore cada operadora pelo nome
+(`CARRIER_COLOR_BY_NAME`: Claro `#ef4444`, Oi `#22c55e`, TIM `#3b82f6`, Vivo `#a855f7`;
+operadoras sem cor definida caem em `FALLBACK_PALETTE`).
 
 ### 6.3 Hooks (`src/hooks/`)
 
@@ -1054,8 +1058,10 @@ color-scheme: light;
 ```
 
 Ícones: [lucide-react](https://lucide.dev). Gráficos: [Recharts](https://recharts.org).
-Logo: `src/assets/branding/km-logo.png` (arte com fundo transparente, só tema escuro) +
-`KmMark.tsx` (SVG, variantes `glow`/`solid`, tema claro).
+Logo: `src/assets/branding/km-logo.png` (neon com fundo transparente — sidebar no tema
+escuro e login nos dois temas) + `src/assets/branding/km-logo-light.png` (metálica com
+fundo transparente — sidebar no tema claro). Opções de `<select>` usam o token sólido
+`--option-bg` (`#0f2740` escuro / `#ffffff` claro).
 
 ## 14. Runbook: como reconstruir o projeto do zero
 
@@ -1078,7 +1084,9 @@ Logo: `src/assets/branding/km-logo.png` (arte com fundo transparente, só tema e
 5. **Storage**: o bucket `phone-invoices` e suas policies já são criados pela migration
    `20260813120000` — nada manual necessário aqui além de rodar as migrations.
 6. **Dados fictícios (opcional, para ambiente de teste/demo)**: rodar
-   `supabase/scripts/01_dados_ficticios.sql` no SQL Editor.
+   `supabase/scripts/01_dados_ficticios.sql` no SQL Editor e, em seguida,
+   `supabase/scripts/02_telefonia_simulada.sql` (mais 10 linhas e faturas mensais de
+   jan/2025 a set/2026; pode ser rodado de novo sem duplicar).
 7. **Rodar localmente**: `npm run dev`.
 8. **Verificar**: logar com o e-mail bootstrap MASTER, confirmar acesso completo a todas
    as telas de administração e auditoria.
